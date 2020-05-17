@@ -8,18 +8,13 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.101
-        source-url: https://nuget.pkg.github.com/chwarr/index.json
-      env:
-        NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
     - name: Install dependencies
       run: dotnet restore
     - name: Build
@@ -28,6 +23,28 @@ jobs:
       run: dotnet test --configuration Release --no-restore --verbosity normal
     - name: Pack
       run: dotnet pack --configuration Release --no-restore
+    - name: Upload packages
+      uses: actions/upload-artifact@v2
+      with:
+        name: nuget-packages
+        path: pack/Release/netcoreapp3.1/
+
+  publish:
+    if: ${{ github.event_name == 'push' }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+        source-url: https://nuget.pkg.github.com/chwarr/index.json
+      env:
+        NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    - name: Download packages
+      uses: actions/download-artifact@v2
+      with:
+        name: nuget-packages
+        path: pack/
     - name: Push
-      if: ${{ github.event_name == 'push' }}
-      run: dotnet nuget push "pack/Release/netcoreapp3.1/*.nupkg"
+      run: dotnet nuget push "pack/*.nupkg"
