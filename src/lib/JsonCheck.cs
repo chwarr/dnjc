@@ -68,7 +68,14 @@ namespace DotNetJsonCheck
             }
         }
 
-        private static string CleanMessage(string jsonExceptionMessage)
+        private static string CleanMessage(string message)
+        {
+            message = RemoveLineNumberBytePosition(message);
+            message = EscapeCrLf(message);
+            return message;
+        }
+
+        private static string RemoveLineNumberBytePosition(string message)
         {
             // When creating the exception message, the line number of byte position are always appended:
             // From https://github.com/dotnet/runtime/blob/81bf79fd9aa75305e55abe2f7e9ef3f60624a3a1/src/libraries/System.Text.Json/src/System/Text/Json/ThrowHelper.cs#L292
@@ -80,14 +87,27 @@ namespace DotNetJsonCheck
                 RegexOptions.CultureInvariant | RegexOptions.Singleline,
                 matchTimeout: TimeSpan.FromMilliseconds(200));
 
-            Match match = r.Match(jsonExceptionMessage);
+            Match match = r.Match(message);
 
             if (match.Success)
             {
-                return jsonExceptionMessage.Substring(startIndex: 0, length: match.Index);
+                return message.Substring(startIndex: 0, length: match.Index);
             }
 
-            return jsonExceptionMessage;
+            return message;
+        }
+
+        private static string EscapeCrLf(string message)
+        {
+            // Depening on the input, the message can contain CR and LF. These
+            // will mess up the output to standard out, so they are replaced
+            // with \r \n. This does mean that the message may no longer
+            // accurately reflect the contents of the JSON, but that's better
+            // than having corrupt output.
+
+            return message
+                .Replace("\r", "\\r", StringComparison.InvariantCulture)
+                .Replace("\n", "\\n", StringComparison.InvariantCulture);
         }
     }
 }

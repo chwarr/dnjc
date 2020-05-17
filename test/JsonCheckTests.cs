@@ -66,7 +66,7 @@ namespace DotNetJsonCheck.Tests
         }
 
         [Fact]
-        public async Task InvalidJson_MessageCleanedUp()
+        public async Task InvalidJson_LineNumberBytePositionInLine_RemovedFromMessage()
         {
             const string InvalidJson = @"not-a-token";
 
@@ -76,8 +76,6 @@ namespace DotNetJsonCheck.Tests
                 await JsonCheck.Check(ms).SingleAsync().ConfigureAwait(false);
 
             Assert.Equal(JsonCheckLevel.Error, r.Level);
-            Assert.Equal(1, r.LineNumber);
-            Assert.Equal(1, r.BytePositionInLine);
 
             Assert.DoesNotContain(
                 "LineNumber:",
@@ -85,6 +83,29 @@ namespace DotNetJsonCheck.Tests
                 StringComparison.InvariantCulture);
             Assert.DoesNotContain(
                 "BytePositionInLine:",
+                r.Message,
+                StringComparison.InvariantCulture);
+        }
+
+        [Fact]
+        public async Task InvalidJson_Newlines_RemovedFromMessage()
+        {
+            const string InvalidJson = @"new
+line";
+
+            using MemoryStream ms = EncodeUtf8(InvalidJson);
+
+            JsonCheckResult r =
+                await JsonCheck.Check(ms).SingleAsync().ConfigureAwait(false);
+
+            Assert.Equal(JsonCheckLevel.Error, r.Level);
+
+            Assert.DoesNotContain(
+                "\r",
+                r.Message,
+                StringComparison.InvariantCulture);
+            Assert.DoesNotContain(
+                "\n",
                 r.Message,
                 StringComparison.InvariantCulture);
         }
