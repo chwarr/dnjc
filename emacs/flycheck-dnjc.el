@@ -62,7 +62,6 @@ validate JSON."
           "Error" "\t"
           line "\t"
           column "\t"
-          (optional (minimal-match (not (any "\t")))) "\t" ; the JSON path
           (message)
           line-end)))
 

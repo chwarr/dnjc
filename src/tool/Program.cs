@@ -71,7 +71,7 @@ namespace DotNetJsonCheck
             {
                 ++errorCount;
 
-                string errorReport = Invariant($"{result.Level}\t{result.LineNumber}\t{result.BytePositionInLine}\t{result.Path}\t{result.Message}");
+                string errorReport = Invariant($"{result.Level}\t{result.LineNumber}\t{result.BytePositionInLine}\t{result.Message}");
                 Console.Out.WriteLine(errorReport);
             }
 
@@ -119,12 +119,12 @@ namespace DotNetJsonCheck
 
     The error output format is lines of:
 
-    LEVEL<TAB>LINE<TAB>COLUMN<TAB>JSON-PATH<TAB>MESSAGE
+    LEVEL<TAB>LINE<TAB>COLUMN<TAB>MESSAGE
 
-    If LINE, COLUMN, or JSON-PATH cannot be determined, they will be empty.
+    If LINE or COLUMN cannot be determined, they will be empty.
 
-    Additional fields may be added in the future as additional columns at
-    the end. Ensure your parsing can handle this.
+    Additional columns may be added in the future at the end. Ensure your
+    parsing can handle this.
 ");
 
             return Task.FromResult(result);
