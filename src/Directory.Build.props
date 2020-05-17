@@ -21,4 +21,20 @@
     <Version>0.0.1</Version>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <!-- Only want to support NuGet 4.3+ -->
+
+    <!-- NU5105: The version property specified contains SemVer 2.0.0 components
+     or SemVer 1.0.0 components that may not be supported on NuGet clients
+     older than v4.3 -->
+    <NoWarn>$(NoWarn);NU5105</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageVersion Condition=" '$(GITHUB_ACTIONS)' == '' ">$(Version)-local</PackageVersion>
+    <PackageVersion Condition=" '$(GITHUB_ACTIONS)' == 'true' ">$(Version)-ci.$(GITHUB_RUN_ID)+$(GITHUB_SHA.Substring(0, 8))</PackageVersion>
+    <RepositoryBranch>$(GITHUB_REF)</RepositoryBranch>
+    <RepositoryCommit>$(GITHUB_SHA)</RepositoryCommit>
+  </PropertyGroup>
+
 </Project>
