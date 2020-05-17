@@ -137,7 +137,6 @@ The exit code of `dnjc` will be
 
 Things that I want to do, in rough priority order
 
-1. Scrub "change the reader options" for trailing commas and comments
 1. Write a pipeline (Azure Dev Ops? GitHub?) to automatically build and
    package. There's the beginning of a GitHub one in
    `/.github/workflows/dotnetcore.yml`.

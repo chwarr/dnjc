@@ -88,6 +88,29 @@ namespace DotNetJsonCheck.Tests
         }
 
         [Fact]
+        public async Task TrailingCommas_ChangeReaderOptions_RemovedFromMessage()
+        {
+            const string InvalidJson = @"[""I have a disallowed trailing comma"", ]";
+
+            var o = new JsonCheckOptions
+            {
+                AllowTrailingCommas = false,
+            };
+
+            using MemoryStream ms = EncodeUtf8(InvalidJson);
+
+            JsonCheckResult r =
+                await JsonCheck.Check(ms, o).SingleAsync().ConfigureAwait(false);
+
+            Assert.Equal(JsonCheckLevel.Error, r.Level);
+
+            Assert.DoesNotContain(
+                "Change the reader options.",
+                r.Message,
+                StringComparison.InvariantCulture);
+        }
+
+        [Fact]
         public async Task InvalidJson_Newlines_RemovedFromMessage()
         {
             const string InvalidJson = @"new
