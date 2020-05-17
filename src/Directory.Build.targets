@@ -12,6 +12,15 @@
     <PackageOutputPath>$(MSBuildThisFileDirectory)..\pack\$(Configuration)\$(TargetFramework)\</PackageOutputPath>
   </PropertyGroup>
 
+  <Target Name="ValidateGitHubActionVariables"
+          BeforeTargets="Pack"
+          Condition=" '$(GITHUB_ACTIONS)' == 'true' ">
+    <Error Text="Expected GITHUB_RUN_ID to be set, but it was not."
+           Condition=" '$(GITHUB_RUN_ID)' == '' " />
+    <Error Text="Expected GITHUB_SHA to be set, but it was not."
+           Condition=" '$(GITHUB_SHA)' == '' " />
+  </Target>
+
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../'))" />
 
 </Project>
