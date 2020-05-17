@@ -7,6 +7,7 @@
 
 namespace DotNetJsonCheck.Tests
 {
+    using System;
     using System.IO;
     using System.Linq;
     using System.Text;
@@ -62,6 +63,30 @@ namespace DotNetJsonCheck.Tests
             Assert.Equal(JsonCheckLevel.Error, r.Level);
             Assert.Equal(3, r.LineNumber);
             Assert.Equal(18, r.BytePositionInLine);
+        }
+
+        [Fact]
+        public async Task InvalidJson_MessageCleanedUp()
+        {
+            const string InvalidJson = @"not-a-token";
+
+            using MemoryStream ms = EncodeUtf8(InvalidJson);
+
+            JsonCheckResult r =
+                await JsonCheck.Check(ms).SingleAsync().ConfigureAwait(false);
+
+            Assert.Equal(JsonCheckLevel.Error, r.Level);
+            Assert.Equal(1, r.LineNumber);
+            Assert.Equal(1, r.BytePositionInLine);
+
+            Assert.DoesNotContain(
+                "LineNumber:",
+                r.Message,
+                StringComparison.InvariantCulture);
+            Assert.DoesNotContain(
+                "BytePositionInLine:",
+                r.Message,
+                StringComparison.InvariantCulture);
         }
 
         [Theory]

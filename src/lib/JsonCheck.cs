@@ -13,6 +13,7 @@ namespace DotNetJsonCheck
     using System.IO;
     using System.Runtime.CompilerServices;
     using System.Text.Json;
+    using System.Text.RegularExpressions;
     using System.Threading;
 
     public static class JsonCheck
@@ -53,7 +54,7 @@ namespace DotNetJsonCheck
 
                 result = new JsonCheckResult(
                     JsonCheckLevel.Error,
-                    ex.Message,
+                    CleanMessage(ex.Message),
                     ex.Path,
                     reportLineNumber,
                     ex.BytePositionInLine);
@@ -66,6 +67,28 @@ namespace DotNetJsonCheck
             {
                 yield return result;
             }
+        }
+
+        private static string CleanMessage(string jsonExceptionMessage)
+        {
+            // When creating the exception message, the line number of byte position are always appended:
+            // From https://github.com/dotnet/runtime/blob/81bf79fd9aa75305e55abe2f7e9ef3f60624a3a1/src/libraries/System.Text.Json/src/System/Text/Json/ThrowHelper.cs#L292
+            //
+            // message += $" LineNumber: {lineNumber} | BytePositionInLine: {bytePositionInLine}.";
+
+            var r = new Regex(
+                " LineNumber: [0-9]* | BytePositionInLine: [0-9]*\\.$",
+                RegexOptions.CultureInvariant | RegexOptions.Singleline,
+                matchTimeout: TimeSpan.FromMilliseconds(200));
+
+            Match match = r.Match(jsonExceptionMessage);
+
+            if (match.Success)
+            {
+                return jsonExceptionMessage.Substring(startIndex: 0, length: match.Index);
+            }
+
+            return jsonExceptionMessage;
         }
     }
 }

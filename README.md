@@ -8,7 +8,7 @@ PS> Get-Content good.json | dnjc
 PS> $LASTEXITCODE
 PS> 0
 PS> Get-Content bad.json | dnjc
-6	2		'}' is an invalid start of a value. LineNumber: 5 | BytePositionInLine: 2.
+6	2		'}' is an invalid start of a value.
 PS> $LASTEXITCODE
 2
 ```
@@ -135,7 +135,6 @@ The exit code of `dnjc` will be
 
 Things that I want to do, in rough priority order
 
-1. Trim off the "LineNumber: 5..." part of the error message.
 1. Scrub message for CRLF
 1. Scrub "change the reader options" for trailing commas and comments
 1. Write a pipeline (Azure Dev Ops? GitHub?) to automatically build and
