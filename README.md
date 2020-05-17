@@ -138,6 +138,8 @@ Things that I want to do, in rough priority order
    package. There's the beginning of a GitHub one in
    `/.github/workflows/dotnetcore.yml`.
 1. Publish to NuGet.org
+1. Add option to require that the top-level value be an object, an array,
+   &amp;c.
 
 ## License
 
