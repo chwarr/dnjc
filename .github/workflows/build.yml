@@ -2,9 +2,9 @@ name: Build
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
@@ -29,9 +29,36 @@ jobs:
         name: nuget-packages
         path: pack/Release/netcoreapp3.1/
 
+  integration-tests:
+    needs: build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+    - name: Download packages
+      uses: actions/download-artifact@v2
+      with:
+        name: nuget-packages
+        path: pack/
+    - name: Test (Windows)
+      if: ${{ runner.os == 'Windows' }}
+      run: |
+        Set-StrictMode -Version Latest
+        Set-PsDebug -Trace 1
+        $dnjcPath = & tests\integration-tests\windows\Install-Dnjc.ps1 -SourcePath pack\ -Version "0.0.1-ci.$env:GITHUB_RUN_ID"
+        & tests\integration-tests\windows\Test-Dnjc.ps1 -DnjcPath $dnjcPath
+      shell: pwsh
+    - name: Test (Unixy)
+      if: ${{ runner.os != 'Windows' }}
+      run: echo "Unixy!"
+
   publish:
     if: ${{ github.event_name == 'push' }}
-    needs: build
+    needs: [build, integration-tests]
     runs-on: ubuntu-latest
     steps:
     - name: Setup .NET Core
