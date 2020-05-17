@@ -55,7 +55,6 @@ namespace DotNetJsonCheck
                 result = new JsonCheckResult(
                     JsonCheckLevel.Error,
                     CleanMessage(ex.Message),
-                    ex.Path,
                     reportLineNumber,
                     ex.BytePositionInLine);
             }

@@ -110,19 +110,21 @@ Any errors encountered will be written to standard out, one per line. Each
 line has the format
 
 ```
-LEVEL<TAB>LINE<TAB>COLUMN<TAB>JSON-PATH<TAB>MESSAGE
+LEVEL<TAB>LINE<TAB>COLUMN<TAB>MESSAGE
 ```
 
 * LEVEL: the severity of the issue. Currently only "Error" is used.
 * LINE: the 1-based line number where the error occurred or started.
 * COLUMN: the 0-based byte offset into the line where the error occurred.
-* JSON-PATH: the path to the JSON element that has the error.
 * MESSAGE: the detailed error message. This comes directly from
   `JsonDocument.Parse()`, so it sometimes says things like "Change the
   reader options", which isn't the best output from a tool like this, but
   there's no way to adjust this output.
 
-If LINE, COLUMN, or JSON-PATH cannot be determined, they will be empty.
+If LINE or COLUMN cannot be determined, they will be empty.
+
+Additional columns may be added in the future at the end. Ensure your
+parsing can handle this.
 
 The exit code of `dnjc` will be
 
