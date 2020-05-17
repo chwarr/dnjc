@@ -1,0 +1,6 @@
+{
+  "property": true,
+  "sub-object": {
+    "array": [1, 2, 3]
+  }
+}
