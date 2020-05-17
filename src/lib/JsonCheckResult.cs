@@ -12,13 +12,11 @@ namespace DotNetJsonCheck
         public JsonCheckResult(
             JsonCheckLevel level,
             string message,
-            string? path,
             long? lineNumber,
             long? bytePositionInLine)
         {
             Level = level;
             Message = message;
-            Path = path;
             LineNumber = lineNumber;
             BytePositionInLine = bytePositionInLine;
         }
@@ -26,8 +24,6 @@ namespace DotNetJsonCheck
         public JsonCheckLevel Level { get; }
 
         public string Message { get; }
-
-        public string? Path { get; }
 
         public long? LineNumber { get; }
 
