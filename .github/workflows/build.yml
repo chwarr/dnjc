@@ -46,5 +46,7 @@ jobs:
       with:
         name: nuget-packages
         path: pack/
+    - name: what
+      run: find .
     - name: Push
       run: dotnet nuget push "pack/*.nupkg"
