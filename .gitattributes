@@ -1,0 +1,21 @@
+# Have Git automatically detect text files and normalize them.
+
+* text=auto
+
+# Leave this alone to help tools that try to auto-detect licenses.
+/LICENSE text eol=lf
+
+# Some Windows-specific files should always be CRLF.
+
+*.cmd text eol=crlf
+*.DotSettings text eol=crlf
+*.sln text eol=crlf
+
+# Shell scripts need to always have LF.
+
+*.sh text eol=lf
+*.zsh text eol=lf
+
+# Emacs has trouble processing packages if they have CRLF. (E.g.,
+# package-install-file cannot find the Package-Version header.)
+*.el text eol=lf

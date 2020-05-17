@@ -1,0 +1,26 @@
+<Project>
+  <!--
+  Copyright 2020, G.Christopher Warrington <c45207@mygcw.net>
+
+  This software is released under the GNU AFFERO GENERAL PUBLIC LICENSE
+  Version 3. A copy of this license is included in the file LICENSE.
+
+  SPDX-License-Identifier: AGPL-3.0-only
+  -->
+
+  <PropertyGroup>
+    <Deterministic>true</Deterministic>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>

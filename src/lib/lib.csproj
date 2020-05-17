@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+  Copyright 2020, G.Christopher Warrington <c45207@mygcw.net>
+
+  This software is released under the GNU AFFERO GENERAL PUBLIC LICENSE
+  Version 3. A copy of this license is included in the file LICENSE.
+
+  SPDX-License-Identifier: AGPL-3.0-only
+  -->
+
+  <PropertyGroup>
+    <AssemblyName>DotNetJsonCheck</AssemblyName>
+    <RootNamespace>DotNetJsonCheck</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageDescription>
+      Lightweight syntax checking library for JSON using
+      System.Text.Json.JsonDocument.
+    </PackageDescription>
+    <PackageId>DotNetJsonCheck</PackageId>
+    <PackageTags>json;syntax;checker</PackageTags>
+    <Title>DotNetJsonCheck</Title>
+  </PropertyGroup>
+
+</Project>
