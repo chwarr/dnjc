@@ -29,6 +29,18 @@ jobs:
         name: nuget-packages
         path: pack/Release/netcoreapp3.1/
 
+  like-publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download packages
+      uses: actions/download-artifact@v2
+      with:
+        name: nuget-packages
+        path: pack/
+    - name: what
+      run: find .
+
   publish:
     if: ${{ github.event_name == 'push' }}
     needs: build
