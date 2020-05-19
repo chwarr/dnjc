@@ -51,7 +51,7 @@ jobs:
         & tests\integration-tests\windows\Test-Dnjc.ps1 -DnjcPath $dnjcPath
       shell: pwsh
     - name: Test
-      if: ${{ runner.os == "Windows" }}
+      if: ${{ runner.os != 'Windows' }}
       run: echo "Unixy!"
 
   publish:
