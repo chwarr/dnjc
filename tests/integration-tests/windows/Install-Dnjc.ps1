@@ -17,6 +17,12 @@ param
     [string]
     $SourcePath = $null,
 
+    # The version to install.
+    #
+    # If not set, will skip passing a version to `dotnet tool install`.
+    [string]
+    $Version = $null,
+
     # Path to install dnjc to.
     #
     # If not set, uses a temporary directory.
@@ -27,7 +33,7 @@ param
 Set-StrictMode -Version Latest
 
 if (-not $SourcePath) {
-    $SourcePath = "$PSScriptRoot\..\..\pack\Debug\netcoreapp3.1\"
+    $SourcePath = "$PSScriptRoot\..\..\..\pack\Debug\netcoreapp3.1\"
 }
 
 $SourcePath = Resolve-Path $SourcePath
@@ -43,12 +49,21 @@ if (-not (Test-Path $DestPath -PathType Container)) {
 }
 
 if ($PSCmdlet.ShouldProcess('dnjc', "Install from `"$SourcePath`"")) {
-    & dotnet tool install `
-      --tool-path $DestPath `
-      --add-source $SourcePath `
-      DotNetJsonCheck.Tool | Out-Null
+    $dotnetArgs = @(
+        'tool', 'install',
+        '--add-source', $SourcePath,
+        '--tool-path', $DestPath
+    )
+
+    if ($Version) {
+        $dotnetArgs += ('--version', $Version)
+    }
+
+    $dotnetArgs += ('DotNetJsonCheck.Tool')
+
+    & dotnet $dotnetArgs | Out-Null
     if (-not $?) {
-    throw "dotnet tool install failed with $LASTEXITCODE"
+        throw "dotnet tool install failed with $LASTEXITCODE"
     }
 
     $finalExecutable = Resolve-Path "$DestPath\dnjc.exe"

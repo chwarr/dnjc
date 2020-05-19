@@ -44,13 +44,15 @@ jobs:
       with:
         name: nuget-packages
         path: pack/
-    - name: Test
+    - name: Test (Windows)
       if: ${{ runner.os == 'Windows' }}
       run: |
-        $dnjcPath = & tests\integration-tests\windows\Install-Dnjc.ps1 -SourcePath pack\
+        Set-StrictMode -Version Latest
+        Set-PsDebug -Trace 1
+        $dnjcPath = & tests\integration-tests\windows\Install-Dnjc.ps1 -SourcePath pack\ -Version "0.0.1-ci.$env:GITHUB_RUN_ID"
         & tests\integration-tests\windows\Test-Dnjc.ps1 -DnjcPath $dnjcPath
       shell: pwsh
-    - name: Test
+    - name: Test (Unixy)
       if: ${{ runner.os != 'Windows' }}
       run: echo "Unixy!"
 
