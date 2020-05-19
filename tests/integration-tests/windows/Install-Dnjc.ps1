@@ -11,11 +11,11 @@ A PathInfo object for the installed executable
 [CmdletBinding(SupportsShouldProcess=$True)]
 param
 (
-    # Package directory.
+    # Source package directory.
     #
-    # If not set, uses the pack\ directory in the repo root.
+    # If not set, uses the debug pack\ directory in the repo root.
     [string]
-    $SourcePath = $null,
+    $SourceDir = $null,
 
     # The version to install.
     #
@@ -23,36 +23,36 @@ param
     [string]
     $Version = $null,
 
-    # Path to install dnjc to.
+    # Directory to install dnjc into.
     #
     # If not set, uses a temporary directory.
     [string]
-    $DestPath = $null
+    $DestDir = $null
 )
 
 Set-StrictMode -Version Latest
 
-if (-not $SourcePath) {
-    $SourcePath = "$PSScriptRoot\..\..\..\pack\Debug\netcoreapp3.1\"
+if (-not $SourceDir) {
+    $SourceDir = "$PSScriptRoot\..\..\..\pack\Debug\netcoreapp3.1\"
 }
 
-$SourcePath = Resolve-Path $SourcePath
+$SourceDir = Resolve-Path $SourceDir
 
-if (-not (Test-Path -LiteralPath $SourcePath -PathType Container)) {
-    throw "Source `"$SourcePath`" does not exist."
+if (-not (Test-Path -LiteralPath $SourceDir -PathType Container)) {
+    throw "Source `"$SourceDir`" does not exist."
 }
 
-if (-not (Test-Path $DestPath -PathType Container)) {
-    $DestPath = [System.IO.Path]::Combine(
+if (-not (Test-Path $DestDir -PathType Container)) {
+    $DestDir = [System.IO.Path]::Combine(
         [System.IO.Path]::GetTempPath(),
         [System.IO.Path]::GetRandomFileName())
 }
 
-if ($PSCmdlet.ShouldProcess('dnjc', "Install from `"$SourcePath`"")) {
+if ($PSCmdlet.ShouldProcess('dnjc', "Install from `"$SourceDir`"")) {
     $dotnetArgs = @(
         'tool', 'install',
-        '--add-source', $SourcePath,
-        '--tool-path', $DestPath
+        '--add-source', $SourceDir,
+        '--tool-path', $DestDir
     )
 
     if ($Version) {
@@ -66,7 +66,7 @@ if ($PSCmdlet.ShouldProcess('dnjc', "Install from `"$SourcePath`"")) {
         throw "dotnet tool install failed with $LASTEXITCODE"
     }
 
-    $finalExecutable = Resolve-Path "$DestPath\dnjc.exe"
+    $finalExecutable = Resolve-Path "$DestDir\dnjc.exe"
 
     if (-not (Test-Path -LiteralPath $finalExecutable -PathType Leaf)) {
         throw "Cannot find expected output `"$finalExecutable`""

@@ -50,7 +50,7 @@ jobs:
         Set-StrictMode -Version Latest
         Set-PsDebug -Trace 1
         $dnjcVersion = "0.0.1-ci.$env:GITHUB_RUN_ID"
-        $dnjcPath = & tests\integration-tests\windows\Install-Dnjc.ps1 -SourcePath .\pack\ -Version $dnjcVersion
+        $dnjcPath = & tests\integration-tests\windows\Install-Dnjc.ps1 -SourceDir .\pack\ -Version $dnjcVersion
         & tests\integration-tests\windows\Test-Dnjc.ps1 -DnjcPath $dnjcPath
       shell: pwsh
     - name: Test (Unixy)
