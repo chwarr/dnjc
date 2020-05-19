@@ -24,10 +24,10 @@ param
     [string]
     $DnjcPath,
 
-    # Path to test-data folder. The file $TestDataPath\test-list.tsv must
+    # Path to test-data folder. The file $TestDataPath\test-list.csv must
     # exist.
     #
-    # The input files in test-list.tsv are assumed to be relative to
+    # The input files in test-list.csv are assumed to be relative to
     # $TestDataPath.
     #
     # If not set, defaults to ..\test-data
@@ -42,7 +42,7 @@ if (-not $TestDataPath) {
     $TestDataPath = "$PSScriptRoot\..\test-data\"
 }
 
-$testListFile = Join-Path $TestDataPath 'test-list.tsv'
+$testListFile = Join-Path $TestDataPath 'test-list.csv'
 
 
 if (-not (Test-Path -LiteralPath $DnjcPath -PathType Leaf)) {
@@ -54,7 +54,7 @@ if (-not (Test-Path -LiteralPath $testListFile -PathType Leaf)) {
 }
 
 $importCsvArgs = @{
-    '-Delimiter' = "`t";
+    '-Delimiter' = ',';
     '-Encoding' = 'ASCII';
     '-Header' = ('ExitCode','Args','InputFile');
     '-LiteralPath' = $testListFile;
