@@ -67,20 +67,24 @@ $anyErrors = $False
 foreach ($testCase in $testCases) {
     $dnjcArgs = $testCase.Args -split ' '
     $inputFilePath = Join-Path $TestDataDir $testCase.InputFile
-    Get-Content -Encoding Ascii $inputFilePath | & $DnjcPath $dnjcArgs | Out-Null
 
-    $result = [PSCustomObject]@{
-        'ActualExitCode' = $LASTEXITCODE;
-        'Args' = $dnjcArgs -join ' ';
-        'ExpectedExitCode' = $testCase.ExitCode;
-        'InputFile' = $testCase.InputFile;
-    }
+    if ($PSCmdlet.ShouldProcess("$($testCase.ExitCode),$dnjcArgs", 'Test')) {
 
-    if ($LASTEXITCODE -eq $testCase.ExitCode) {
-        Write-Output $result
-    } else {
-        $anyErrors = $True
-        Write-Error $result
+        Get-Content -Encoding Ascii $inputFilePath | & $DnjcPath $dnjcArgs | Out-Null
+
+        $result = [PSCustomObject]@{
+            'ActualExitCode' = $LASTEXITCODE;
+            'Args' = $dnjcArgs -join ' ';
+            'ExpectedExitCode' = $testCase.ExitCode;
+            'InputFile' = $testCase.InputFile;
+        }
+
+        if ($LASTEXITCODE -eq $testCase.ExitCode) {
+            Write-Output $result
+        } else {
+            $anyErrors = $True
+            Write-Error $result
+        }
     }
 }
 
