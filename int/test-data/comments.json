@@ -1,0 +1,7 @@
+{
+  // C++-style
+  "property": true,
+  "sub-object": {
+    "array": /* C-style */ [1, 2, 3]
+  }
+}
