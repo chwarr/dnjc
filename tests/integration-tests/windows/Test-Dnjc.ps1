@@ -24,25 +24,25 @@ param
     [string]
     $DnjcPath,
 
-    # Path to test-data folder. The file $TestDataPath\test-list.csv must
+    # Directory with test data. The file $TestDataDir\test-list.csv must
     # exist.
     #
     # The input files in test-list.csv are assumed to be relative to
-    # $TestDataPath.
+    # $TestDataDir.
     #
-    # If not set, defaults to ..\test-data
+    # If not set, defaults to $PSScriptRoot\..\test-data
     [string]
-    $TestDataPath = $null
+    $TestDataDir = $null
 )
 
 Set-StrictMode -Version Latest
 
 
-if (-not $TestDataPath) {
-    $TestDataPath = "$PSScriptRoot\..\test-data\"
+if (-not $TestDataDir) {
+    $TestDataDir = "$PSScriptRoot\..\test-data\"
 }
 
-$testListFile = Join-Path $TestDataPath 'test-list.csv'
+$testListFile = Join-Path $TestDataDir 'test-list.csv'
 
 
 if (-not (Test-Path -LiteralPath $DnjcPath -PathType Leaf)) {
@@ -66,7 +66,7 @@ $anyErrors = $False
 
 foreach ($testCase in $testCases) {
     $dnjcArgs = $testCase.Args -split ' '
-    $inputFilePath = Join-Path $TestDataPath $testCase.InputFile
+    $inputFilePath = Join-Path $TestDataDir $testCase.InputFile
     Get-Content -Encoding Ascii $inputFilePath | & $DnjcPath $dnjcArgs | Out-Null
 
     $result = [PSCustomObject]@{
