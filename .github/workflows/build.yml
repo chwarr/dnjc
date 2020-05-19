@@ -45,7 +45,7 @@ jobs:
         name: nuget-packages
         path: pack/
     - name: Test
-      if: ${{ runner.os == "Windows" }}
+      if: ${{ runner.os == 'Windows' }}
       run: |
         $dnjcPath = & tests\integration-tests\windows\Install-Dnjc.ps1 -SourcePath pack\
         & tests\integration-tests\windows\Test-Dnjc.ps1 -DnjcPath $dnjcPath
