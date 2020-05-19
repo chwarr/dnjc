@@ -49,12 +49,17 @@ jobs:
       run: |
         Set-StrictMode -Version Latest
         Set-PsDebug -Trace 1
-        $dnjcPath = & tests\integration-tests\windows\Install-Dnjc.ps1 -SourcePath pack\ -Version "0.0.1-ci.$env:GITHUB_RUN_ID"
+        $dnjcVersion = "0.0.1-ci.$env:GITHUB_RUN_ID"
+        $dnjcPath = & tests\integration-tests\windows\Install-Dnjc.ps1 -SourcePath .\pack\ -Version $dnjcVersion
         & tests\integration-tests\windows\Test-Dnjc.ps1 -DnjcPath $dnjcPath
       shell: pwsh
     - name: Test (Unixy)
       if: ${{ runner.os != 'Windows' }}
-      run: echo "Unixy!"
+      run: |
+          set -efux
+          dnjc_version="0.0.1-ci.${GITHUB_RUN_ID}"
+          dnjc_path=$(./tests/integration-tests/unixy/install-dnjc.sh -s "./pack" -v "${dnjc_version}")
+          ./tests/integration-tests/unixy/test-dnjc.sh -d "${dnjc_path}"
 
   publish:
     if: ${{ github.event_name == 'push' }}
