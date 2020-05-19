@@ -1,11 +1,14 @@
 ﻿<#
 .SYNOPSIS
 
-Runs integration tests on the given dnjc executable.
+Runs integration tests against the given dnjc executable.
 
 .OUTPUTS
 
-If any tests do not pass, an error is written with the shape:
+The result of each test is written to either the output stream or the error
+stream, depending on whether it passed or not.
+
+The shape of the result object is:
 
 * ActualExitCode
 * Args
@@ -21,9 +24,13 @@ param
     [string]
     $DnjcPath,
 
-    # Path to test-data folder.
+    # Path to test-data folder. The file $TestDataPath\test-list.tsv must
+    # exist.
     #
-    # If not set, ..\test-data
+    # The input files in test-list.tsv are assumed to be relative to
+    # $TestDataPath.
+    #
+    # If not set, defaults to ..\test-data
     [string]
     $TestDataPath = $null
 )
