@@ -4,7 +4,7 @@
 ;;
 ;; Author: Christopher Warrington <c45207@mygcw.net>
 ;; Package-Version: 0.1
-;; Package-Requires: ((flycheck "32"))
+;; Package-Requires: ((emacs "24") (flycheck "32"))
 ;; Keywords: convenience, languages, tools
 ;; URL: https://github.com/chwarr/dnjc
 
@@ -23,12 +23,12 @@
 ;;   dotnet tool install --global DotNetJsonCheck.Tool
 ;;
 ;; Add this checker to Flycheck's list of known checkers by calling
-;; `setup-flycheck-dnjc'.
+;; `flycheck-setup-dnjc'.
 ;;
 ;; If you use `use-package', something like this will work:
 ;;
 ;; (use-package flycheck-dnjc
-;;   :config (setup-flycheck-dnjc))
+;;   :config (flycheck-dnjc-setup))
 
 ;;; Code:
 
@@ -66,7 +66,7 @@ validate JSON."
           line-end)))
 
 ;;;###autoload
-(defun setup-flycheck-dnjc ()
+(defun flycheck-dnjc-setup ()
   "Set up flycheck to use the .NET JSON Check (`dnjc') checker."
   (add-to-list 'flycheck-checkers 'json-dnjc))
 
