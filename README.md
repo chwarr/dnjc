@@ -137,9 +137,12 @@ The exit code of `dnjc` will be
 
 Things that I want to do, in rough priority order
 
+1. Make web page
 1. Publish to NuGet.org
 1. Add option to require that the top-level value be an object, an array,
    &amp;c.
+1. Add Emacs byte-compilation build step?
+1. Use `package-upload-file` to create a hostable package archive?
 
 ## License
 
