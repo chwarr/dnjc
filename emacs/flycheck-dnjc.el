@@ -41,9 +41,14 @@
   "Whether to use dnjc's `--strict' mode.
 
 When in strict mode, comments and trailing commas are not
-permitted."
+permitted. `dnjc' defaults to allowing more relaxed syntax."
   :type 'boolean
   :safe #'booleanp
+  :package-version '(flycheck-dnjc . "0.1"))
+
+(flycheck-def-args-var
+    flycheck-dnjc-args
+    json-dnjc
   :package-version '(flycheck-dnjc . "0.1"))
 
 (flycheck-define-checker json-dnjc
@@ -53,8 +58,8 @@ permitted."
 validate JSON."
 
   :command ("dnjc"
-            (option-flag "--strict"
-                         flycheck-dnjc-strict))
+            (option-flag "--strict" flycheck-dnjc-strict)
+            (eval flycheck-dnjc-args))
   :standard-input t
   :modes json-mode
   :error-patterns

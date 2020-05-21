@@ -2,6 +2,7 @@
 /pack/
 
 *~
+*.elc
 
 bin/
 obj/
