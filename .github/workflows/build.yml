@@ -66,7 +66,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install emacs
-      run: apt-get install --no-install-recommends --yes emacs-nox
+      run: sudo apt-get install --no-install-recommends --yes emacs-nox
     - name: emacs version
       run: emacs --version
     - name: Build emacs library
