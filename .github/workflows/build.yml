@@ -7,7 +7,7 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  cs-build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -30,7 +30,7 @@ jobs:
         path: pack/Release/netcoreapp3.1/
 
   integration-tests:
-    needs: build
+    needs: cs-build
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -61,9 +61,20 @@ jobs:
           dnjc_path=$(./tests/integration-tests/unixy/install-dnjc.sh -s ./pack -v "${dnjc_version}")
           ./tests/integration-tests/unixy/test-dnjc.sh -d "${dnjc_path}"
 
+  emacs-build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install emacs
+      run: apt-get install --no-install-recommends --yes emacs-nox
+    - name: emacs version
+      run: emacs --version
+    - name: Build emacs library
+      run: cd emacs && make
+
   publish:
     if: ${{ github.event_name == 'push' }}
-    needs: [build, integration-tests]
+    needs: [cs-build, integration-tests]
     runs-on: ubuntu-latest
     steps:
     - name: Setup .NET Core
