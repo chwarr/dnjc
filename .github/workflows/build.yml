@@ -72,6 +72,26 @@ jobs:
     - name: Build emacs library
       run: cd emacs && make
 
+  website-build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install minify
+      run: sudo apt-get install --no-install-recommends --yes minify
+    - id: install-pandoc
+      name: Install Pandoc
+      run: |
+        set -efu
+        pandoc_install_location=$(website/install_pandoc.sh)
+        echo "::set-output name=pandoc-install-location::${pandoc_install_location}"
+    - name: Build website
+      run: cd website && make PANDOC=${{ steps.install-pandoc.outputs.pandoc-install-location }}
+    - name: Upload generated website
+      uses: actions/upload-artifact@v2
+      with:
+        name: website
+        path: website/*.html
+
   publish:
     if: ${{ github.event_name == 'push' }}
     needs: [cs-build, integration-tests]

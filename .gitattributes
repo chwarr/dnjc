@@ -19,3 +19,5 @@
 # Emacs has trouble processing packages if they have CRLF. (E.g.,
 # package-install-file cannot find the Package-Version header.)
 *.el text eol=lf
+
+Makefile text eol=lf
