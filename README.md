@@ -4,10 +4,10 @@
 errors using the [`System.Text.Json`][stj] parsers.
 
 ```powershell
-PS> Get-Content good.json | dnjc
+PS> Get-Content "good.json" | dnjc
 PS> $LASTEXITCODE
 PS> 0
-PS> Get-Content bad.json | dnjc
+PS> Get-Content "bad.json" | dnjc
 6	2		'}' is an invalid start of a value.
 PS> $LASTEXITCODE
 2
@@ -18,14 +18,16 @@ PS> $LASTEXITCODE
 For now, `dnjc` needs to be built from source. It can then be installed with
 `dotnet tool install`:
 
+The source code [is hosted on GitHub](https://github.com/chwarr/dnjc).
+
 ```powershell
 cd /src # Adjust as needed
-git clone https://github.com/chwarr/dnjc.git
+git clone "https://github.com/chwarr/dnjc.git"
 cd dnjc
-dotnet pack --configuration Release dnjc.sln
+dotnet pack --configuration Release "dnjc.sln"
 dotnet tool install `
     --global `
-    --add-source /src/dnjc/pack/Release/netcoreapp3.1 `
+    --add-source "/src/dnjc/pack/Release/netcoreapp3.1" `
     DotNetJsonCheck.Tool
 ```
 
@@ -38,7 +40,7 @@ After installing, invoke it, giving it the JSON you want to check on
 standard input. Using PowerShell, this is something like:
 
 ```powershell
-Get-Content input.json | dnjc
+Get-Content "input.json" | dnjc
 ```
 
 Other shells, like Bash, CMD, and Zsh can use redirection:
@@ -137,7 +139,6 @@ The exit code of `dnjc` will be
 
 Things that I want to do, in rough priority order
 
-1. Make web page
 1. Publish to NuGet.org
 1. Add option to require that the top-level value be an object, an array,
    &amp;c.
@@ -152,7 +153,7 @@ Version 3. A copy of this license is included in the file [LICENSE].
 
 [emacs]: https://www.gnu.org/software/emacs/
 [flycheck]: https://www.flycheck.org/
-[LICENSE]: ./LICENSE
+[LICENSE]: https://github.com/chwarr/dnjc/blob/master/LICENSE
 [mecj]: https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.configuration.json?view=dotnet-plat-ext-3.1
 [stj]: https://docs.microsoft.com/en-us/dotnet/api/system.text.json?view=netcore-3.1
 [use-package]: https://github.com/jwiegley/use-package
