@@ -5,10 +5,17 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+  release:
+    types: [created]
 
 jobs:
   cs-build:
     runs-on: ubuntu-latest
+    outputs:
+      # Version of the package produced. This is set by the
+      # `EmitPackageVersionToGitHubActionVariable` MSBuild task that runs
+      # before packing.
+      nuget-package-version: ${{ steps.pack.outputs.nuget-package-version }}
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
@@ -22,6 +29,7 @@ jobs:
     - name: Test
       run: dotnet test --configuration Release --no-restore --verbosity normal
     - name: Pack
+      id: pack
       run: dotnet pack --configuration Release --no-restore
     - name: Upload packages
       uses: actions/upload-artifact@v2
@@ -49,16 +57,14 @@ jobs:
       run: |
         Set-StrictMode -Version Latest
         Set-PsDebug -Trace 1
-        $dnjcVersion = "0.0.1-ci.$env:GITHUB_RUN_ID"
-        $dnjcPath = & tests\integration-tests\windows\Install-Dnjc.ps1 -SourceDir .\pack\ -Version $dnjcVersion
+        $dnjcPath = & tests\integration-tests\windows\Install-Dnjc.ps1 -SourceDir .\pack\ -Version '${{ needs.cs-build.outputs.nuget-package-version }}'
         & tests\integration-tests\windows\Test-Dnjc.ps1 -DnjcPath $dnjcPath
       shell: pwsh
     - name: Test (Unixy)
       if: ${{ runner.os != 'Windows' }}
       run: |
           set -efu
-          dnjc_version="0.0.1-ci.${GITHUB_RUN_ID}"
-          dnjc_path=$(./tests/integration-tests/unixy/install-dnjc.sh -s ./pack -v "${dnjc_version}")
+          dnjc_path=$(./tests/integration-tests/unixy/install-dnjc.sh -s ./pack -v '${{ needs.cs-build.outputs.nuget-package-version }}')
           ./tests/integration-tests/unixy/test-dnjc.sh -d "${dnjc_path}"
 
   emacs-build:
@@ -92,8 +98,8 @@ jobs:
         name: website
         path: website/*.html
 
-  publish:
-    if: ${{ github.event_name == 'push' }}
+  publish-github:
+    if: ${{ github.event_name == 'push' || github.event_name == 'release' }}
     needs: [cs-build, integration-tests]
     runs-on: ubuntu-latest
     steps:
