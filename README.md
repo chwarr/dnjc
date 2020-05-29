@@ -1,16 +1,13 @@
 ﻿# .NET JSON Check
 
-.NET JSON Check, `dnjc`, is a command line tool to check for JSON syntax
-errors using the [`System.Text.Json`][stj] parsers.
+[.NET JSON Check][dnjc], `dnjc`, is a command line tool to check for JSON
+syntax errors using the [`System.Text.Json`][stj] parsers.
 
 ```powershell
 PS> Get-Content "good.json" | dnjc
-PS> $LASTEXITCODE
-PS> 0
+# Nothing wrong: no output
 PS> Get-Content "bad.json" | dnjc
 6	2		'}' is an invalid start of a value.
-PS> $LASTEXITCODE
-2
 ```
 
 ## Install
@@ -157,6 +154,7 @@ details.
 A copy of the GNU Affero General Public License Version 3 is included in the
 file [LICENSE].
 
+[dnjc]: https://www.thebluepolicebox.com/dnjc/
 [emacs]: https://www.gnu.org/software/emacs/
 [flycheck]: https://www.flycheck.org/
 [LICENSE]: https://github.com/chwarr/dnjc/blob/master/LICENSE
