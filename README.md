@@ -145,8 +145,17 @@ Things that I want to do, in rough priority order
 
 Copyright 2020, G. Christopher Warrington
 
-This software is released under the GNU AFFERO GENERAL PUBLIC LICENSE
-Version 3. A copy of this license is included in the file [LICENSE].
+dnjc is free software: you can redistribute it and/or modify it under the
+terms of the GNU Affero General Public License Version 3 as published by the
+Free Software Foundation.
+
+dnjc is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
+details.
+
+A copy of the GNU Affero General Public License Version 3 is included in the
+file [LICENSE].
 
 [emacs]: https://www.gnu.org/software/emacs/
 [flycheck]: https://www.flycheck.org/
