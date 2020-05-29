@@ -1,4 +1,4 @@
-﻿# .NET JSON Check
+# .NET JSON Check
 
 [.NET JSON Check][dnjc], `dnjc`, is a command line tool to check for JSON
 syntax errors using the [`System.Text.Json`][stj] parsers.
