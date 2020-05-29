@@ -24,10 +24,7 @@ SPDX-License-Identifier: AGPL-3.0-only
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageDescription>
-      Lightweight syntax checking library for JSON using
-      System.Text.Json.JsonDocument.
-    </PackageDescription>
+    <PackageDescription>Lightweight syntax checking library for JSON using System.Text.Json.JsonDocument.</PackageDescription>
     <PackageId>DotNetJsonCheck</PackageId>
     <PackageTags>json;syntax;checker</PackageTags>
     <Title>DotNetJsonCheck</Title>

@@ -25,11 +25,7 @@ SPDX-License-Identifier: AGPL-3.0-only
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageDescription>
-      Command-line tool to check JSON syntax using
-      System.Text.Json.JsonDocument. Has a Flycheck checker for use with
-      Emacs.
-    </PackageDescription>
+    <PackageDescription>Command-line tool to check JSON syntax using System.Text.Json.JsonDocument. Has a Flycheck checker for use with Emacs.</PackageDescription>
     <PackageId>DotNetJsonCheck.Tool</PackageId>
     <PackageTags>json;tool;syntax;checker;flycheck;emacs</PackageTags>
     <PackAsTool>true</PackAsTool>
