@@ -42,7 +42,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
   <PropertyGroup>
     <PackageVersion Condition=" '$(GITHUB_ACTIONS)' == '' ">$(Version)-local</PackageVersion>
-    <PackageVersion Condition=" '$(GITHUB_ACTIONS)' == 'true' ">$(Version)-ci.$(GITHUB_RUN_ID)+$(GITHUB_SHA.Substring(0, 8))</PackageVersion>
+    <PackageVersion Condition=" '$(GITHUB_ACTIONS)' == 'true' And '$(GITHUB_EVENT_NAME)' != 'release' ">$(Version)-ci.$(GITHUB_RUN_ID)+$(GITHUB_SHA.Substring(0, 8))</PackageVersion>
     <RepositoryBranch>$(GITHUB_REF)</RepositoryBranch>
     <RepositoryCommit>$(GITHUB_SHA)</RepositoryCommit>
   </PropertyGroup>
