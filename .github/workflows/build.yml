@@ -116,4 +116,4 @@ jobs:
         name: nuget-packages
         path: pack/
     - name: Push
-      run: dotnet nuget push "pack/*.nupkg"
+      run: dotnet nuget push --skip-duplicate "pack/*.nupkg"
