@@ -17,7 +17,7 @@
 ;; This file is not part of GNU Emacs.
 
 ;; Author: Christopher Warrington <code@cw.codes>
-;; Package-Version: 0.1
+;; Package-Version: 1.0
 ;; Package-Requires: ((emacs "24") (flycheck "32"))
 ;; Keywords: convenience, languages, tools
 ;; URL: https://www.thebluepolicebox.com/dnjc/
@@ -51,12 +51,12 @@ When in strict mode, comments and trailing commas are not
 permitted. `dnjc' defaults to allowing more relaxed syntax."
   :type 'boolean
   :safe #'booleanp
-  :package-version '(flycheck-dnjc . "0.1"))
+  :package-version '(flycheck-dnjc . "1.0"))
 
 (flycheck-def-args-var
     flycheck-dnjc-args
     json-dnjc
-  :package-version '(flycheck-dnjc . "0.1"))
+  :package-version '(flycheck-dnjc . "1.0"))
 
 (flycheck-define-checker json-dnjc
   "Check JSON using the .NET Json Check (`dnjc') tool.

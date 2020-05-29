@@ -28,7 +28,7 @@ SPDX-License-Identifier: AGPL-3.0-only
     <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/chwarr/dnjc</RepositoryUrl>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <Version>0.0.1</Version>
+    <Version>1.0.0-preview</Version>
   </PropertyGroup>
 
   <PropertyGroup>
