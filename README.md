@@ -1,4 +1,4 @@
-# .NET JSON Check
+# dnjc, .NET JSON Check
 
 [.NET JSON Check][dnjc], `dnjc`, is a command line tool to check for JSON
 syntax errors using the [`System.Text.Json`][stj] parsers.
@@ -10,26 +10,28 @@ PS> Get-Content "bad.json" | dnjc
 6	2		'}' is an invalid start of a value.
 ```
 
-## Install
-
-For now, `dnjc` needs to be built from source. It can then be installed with
-`dotnet tool install`:
-
 The source code [is hosted on GitHub](https://github.com/chwarr/dnjc).
 
+## Install
+
+`dnjc` can be installed as a [.NET global tool][dotnet-global-tools]:
+
 ```powershell
-cd /src # Adjust as needed
-git clone "https://github.com/chwarr/dnjc.git"
-cd dnjc
-dotnet pack --configuration Release "dnjc.sln"
-dotnet tool install `
-    --global `
-    --add-source "/src/dnjc/pack/Release/netcoreapp3.1" `
-    DotNetJsonCheck.Tool
+dotnet tool install --global DotNetJsonCheck.Tool
 ```
 
 If this is the first .NET global tool you've installed, you may need to
 restart your shell/console for it to pick up the changes to your PATH.
+
+## Versions
+
+The current versions of the tool and the library that powers it are shown
+below.
+
+| Package | Version |
+|---------|---------|
+| DotNetJsonCheck.Tool | [![DotNetJsonCheck.Tool NuGet version](https://img.shields.io/nuget/v/DotNetJsonCheck.Tool?logo=nuget&style=flat-square)][nuget-dnjc-tool] |
+| DotNetJsonCheck | [![DotNetJsonCheck NuGet version](https://img.shields.io/nuget/v/DotNetJsonCheck?logo=nuget&style=flat-square)][nuget-dnjc] |
 
 ## Invocation
 
@@ -83,9 +85,9 @@ example, to allow comments but not trailing commas, pass `--strict
 The [Emacs][emacs] package `flycheck-dnjc.el` can be used to configure a
 [Flycheck][flycheck] checker that uses `dnjc`.
 
-Install the `flycheck-dnjc.el` from where you cloned this repository.
-
-<kbd>M-x</kbd> `package-install-file` <kbd>RET</kbd> `/src/dnjc/flycheck-dnjc.el`
+To install it, [download it][flycheck-dnjc.el] and then install it with
+<kbd>M-x</kbd> `package-install-file` <kbd>RET</kbd>
+`/path/to/where/you/downloaded/flycheck-dnjc.el`
 
 If you use [`use-package`][use-package] to manage your packages, add this to
 your `.emacs` file:
@@ -152,12 +154,16 @@ FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
 details.
 
 A copy of the GNU Affero General Public License Version 3 is included in the
-file [LICENSE].
+file [LICENSE] at the root of the repository.
 
 [dnjc]: https://www.thebluepolicebox.com/dnjc/
+[dotnet-global-tools]: https://aka.ms/global-tools
 [emacs]: https://www.gnu.org/software/emacs/
+[flycheck-dnjc.el]: https://raw.githubusercontent.com/chwarr/dnjc/master/emacs/flycheck-dnjc.el
 [flycheck]: https://www.flycheck.org/
 [LICENSE]: https://github.com/chwarr/dnjc/blob/master/LICENSE
 [mecj]: https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.configuration.json?view=dotnet-plat-ext-3.1
+[nuget-dnjc-tool]: https://www.nuget.org/packages/DotNetJsonCheck.Tool/
+[nuget-dnjc]: https://www.nuget.org/packages/DotNetJsonCheck/
 [stj]: https://docs.microsoft.com/en-us/dotnet/api/system.text.json?view=netcore-3.1
 [use-package]: https://github.com/jwiegley/use-package

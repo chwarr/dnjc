@@ -14,5 +14,7 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
+author:
+- Christopher Warrington
 lang: en-us
 title: 'dnjc, .NET JSON Check: check for JSON errors using .NET'

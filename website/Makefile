@@ -18,13 +18,13 @@
 .PHONY: all clean
 PANDOC = pandoc
 PANDOC_SYNTAX_DEFNS = --syntax-definition=syntax/jsonc.xml --syntax-definition=syntax/elisp.xml
-PANDOC_OPTS = --highlight-style=kate --standalone --template=template/html.html
+PANDOC_OPTS = --highlight-style=syntax/highlight.theme --standalone --template=template/html.html
 
 all: index.html
 
 clean:
 	rm -f index.html
 
-index.html: ../README.md index.yaml syntax/jsonc.xml syntax/elisp.xml template/html.html
+index.html: ../README.md index.yaml syntax/jsonc.xml syntax/elisp.xml syntax/highlight.theme template/html.html
 	$(PANDOC) $(PANDOC_SYNTAX_DEFNS) $(PANDOC_OPTS) --from=gfm --to=html --metadata-file=index.yaml --output "$@" "$<"
 	minify "$@" --output "$@"
